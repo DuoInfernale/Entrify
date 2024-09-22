@@ -1,0 +1,65 @@
+<!-- [ navigation menu ] start -->
+<nav class="pcoded-navbar">
+    <div class="navbar-wrapper">
+        <div class="navbar-brand header-logo">
+            <a href="/" class="b-brand">
+                <div class="b-bg">
+                    <img src="/static/assets/images/logo.png" alt="Logo" />
+                </div>
+                <span class="b-title">Entrify</span>
+            </a>
+            <a class="mobile-menu" id="mobile-collapse" href="javascript:"><span></span></a>
+        </div>
+        <div class="navbar-content scroll-div">
+            <ul class="nav pcoded-inner-navbar">
+                <li class="nav-item pcoded-menu-caption">
+                    <label>Navigation</label>
+                </li>
+                <li data-username="dashboard" 
+                    class="nav-item {% if 'index' in segment %} active {% endif %}">
+                    <a href="/" class="nav-link "><span class="pcoded-micon"><i class="feather icon-home"></i></span><span
+                            class="pcoded-mtext">Dashboard</span></a>
+                </li>
+                
+                <li class="nav-item pcoded-menu-caption">
+                    <label>Customer</label>
+                </li>
+                <li data-username="customer overview" class="nav-item {% if 'customer_overview' in segment %} active {% endif %}">
+                    <a href="/customers" class="nav-link "><span class="pcoded-micon"><i 
+                           class="feather icon-file-text"></i></span><span class="pcoded-mtext">Overview</span></a>
+                </li>
+                <li data-username="add customer" class="nav-item {% if 'add_customer' in segment %} active {% endif %}">
+                    <a href="/add-customer" class="nav-link "><span class="pcoded-micon"><i 
+                           class="feather icon-user-plus"></i></span><span class="pcoded-mtext">Add Customer</span></a>
+                </li>
+
+                <li class="nav-item pcoded-menu-caption">
+                    <label>Application</label>
+                </li>
+                <li data-username="app registrations" class="nav-item {% if 'app_registrations' in segment %} active {% endif %}">
+                    <a href="/app-registrations" class="nav-link "><span class="pcoded-micon"><i 
+                           class="feather icon-grid"></i></span><span class="pcoded-mtext">App registrations</span></a>
+                </li>
+
+                </li>
+                <li data-username="enterprise applications" class="nav-item {% if 'enterprise_applications' in segment %} active {% endif %}">
+                    <a href="/enterprise-applications" class="nav-link "><span class="pcoded-micon"><i 
+                        class="feather icon-briefcase"></i></span><span class="pcoded-mtext">Enterprise Applications</span></a>
+                </li>
+
+                <li class="nav-item pcoded-menu-caption">
+                    <label>More Resources</label>
+                </li>                    
+                <li data-username="Support" class="nav-item">
+                    <a href="mailto:support@entrify.ch" class="nav-link">
+                        <span class="pcoded-micon">
+                            <i class="feather icon-headphones"></i>
+                        </span>
+                        <span class="pcoded-mtext">Support</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- [ navigation menu ] end -->

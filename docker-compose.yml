@@ -1,0 +1,37 @@
+services:
+  entrify:
+    container_name: app
+    restart: always
+    image: "duoinfernale/entrify:1.0.0"
+    env_file:
+      - .env
+    depends_on:
+      - mysql
+
+  nginx:
+    container_name: nginx
+    restart: always
+    image: "nginx:latest"
+    ports:
+      - "5085:5085"
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+    depends_on: 
+      - entrify
+
+  mysql:
+    container_name: mysql
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ""
+      MYSQL_DATABASE: ""
+      MYSQL_USER: ""
+      MYSQL_PASSWORD: ""
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - "50000:3306"
+
+volumes:
+  mysql_data:

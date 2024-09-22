@@ -1,0 +1,349 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "Entrify APIs",
+      "description": "API documentation for Entrify application.",
+      "version": "1.0.0"
+    },
+    "servers": [
+      {
+        "url": "https://dashboard.entrify.ch",
+        "description": "Production environment"
+      }
+    ],
+    "paths": {
+      "/api/add-customer": {
+        "post": {
+          "summary": "Add a new customer",
+          "description": "This action requires the user to be logged in via the UI.",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/x-www-form-urlencoded": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "customerName": {
+                      "type": "string",
+                      "example": "Acme Corp"
+                    },
+                    "customerShort": {
+                      "type": "string",
+                      "example": "Acme"
+                    },
+                    "tenantId": {
+                      "type": "string",
+                      "example": "tenant-id-123"
+                    },
+                    "clientId": {
+                      "type": "string",
+                      "example": "client-id-123"
+                    },
+                    "clientSecret": {
+                      "type": "string",
+                      "example": "super-secret"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "302": {
+              "description": "Customer added successfully"
+            },
+            "400": {
+              "description": "Bad request"
+            },
+            "403": {
+              "description": "Forbidden (only one customer allowed)"
+            }
+          }
+        }
+      },
+      "/api/customers": {
+        "get": {
+          "summary": "Get all customers",
+          "responses": {
+            "200": {
+              "description": "A list of customers",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "Acme Corp"
+                        },
+                        "short_name": {
+                          "type": "string",
+                          "example": "Acme"
+                        },
+                        "tenant_id": {
+                          "type": "string",
+                          "example": "5944fbd0-5333-4119-9110-2f3a5f5d628c"
+                        },
+                        "client_id": {
+                          "type": "string",
+                          "example": "f074ee2c-9573-4fac-8b4e-b8677dfd9101"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/delete-customer/{customer_id}": {
+        "delete": {
+          "summary": "Delete a customer",
+          "description": "This action requires the user to be logged in via the UI.",
+          "parameters": [
+            {
+              "name": "customer_id",
+              "in": "path",
+              "required": true,
+              "description": "ID of the customer to delete",
+              "schema": {
+                "type": "integer"
+              }
+            }
+          ],
+          "responses": {
+            "204": {
+              "description": "Customer deleted successfully"
+            },
+            "404": {
+              "description": "Customer not found"
+            }
+          }
+        }
+      },
+      "/api/customers/count": {
+        "get": {
+          "summary": "Get the count of customers",
+          "responses": {
+            "200": {
+              "description": "Count of customers",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "count": {
+                        "type": "integer",
+                        "example": 5
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/applications": {
+        "get": {
+          "summary": "Get all applications and their password credentials",
+          "responses": {
+            "200": {
+              "description": "A list of applications",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "app_id": {
+                          "type": "string",
+                          "example": "app-id-123"
+                        },
+                        "display_name": {
+                          "type": "string",
+                          "example": "My Application"
+                        },
+                        "password_credentials": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "key_id": {
+                                "type": "string",
+                                "example": "key-id-123"
+                              },
+                              "display_name": {
+                                "type": "string",
+                                "example": "Main Key"
+                              },
+                              "end_date_time": {
+                                "type": "string",
+                                "format": "date-time",
+                                "example": "2024-12-31T23:59:59Z"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/applications/count": {
+        "get": {
+          "summary": "Get the count of applications",
+          "responses": {
+            "200": {
+              "description": "Count of applications",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "count": {
+                        "type": "integer",
+                        "example": 10
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/applications/expiring-soon/count": {
+        "get": {
+          "summary": "Get the count of applications with secrets expiring soon",
+          "responses": {
+            "200": {
+              "description": "Count of applications with expiring secrets",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "count": {
+                        "type": "integer",
+                        "example": 3
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/enterprise-applications": {
+        "get": {
+          "summary": "Get all enterprise applications and their SAML certificates",
+          "responses": {
+            "200": {
+              "description": "A list of enterprise applications",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "app_id": {
+                          "type": "string",
+                          "example": "enterprise-app-id-123"
+                        },
+                        "display_name": {
+                          "type": "string",
+                          "example": "Enterprise Application"
+                        },
+                        "saml_certificate": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "key_id": {
+                                "type": "string",
+                                "example": "saml-key-id-123"
+                              },
+                              "certificate_display_name": {
+                                "type": "string",
+                                "example": "SAML Certificate"
+                              },
+                              "end_date_time": {
+                                "type": "string",
+                                "format": "date-time",
+                                "example": "2024-12-31T23:59:59Z"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/enterprise-applications/count": {
+        "get": {
+          "summary": "Get the count of enterprise applications",
+          "responses": {
+            "200": {
+              "description": "Count of enterprise applications",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "count": {
+                        "type": "integer",
+                        "example": 5
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/enterprise-applications/expiring-soon/count": {
+        "get": {
+          "summary": "Get the count of SAML certificates expiring soon",
+          "responses": {
+            "200": {
+              "description": "Count of expiring SAML certificates",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "count": {
+                        "type": "integer",
+                        "example": 2
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }

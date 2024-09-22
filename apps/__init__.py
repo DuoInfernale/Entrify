@@ -1,0 +1,43 @@
+from flask import Flask
+from werkzeug.middleware.proxy_fix import ProxyFix
+from flask_login import LoginManager
+from flask_sqlalchemy import SQLAlchemy
+from importlib import import_module
+
+db = SQLAlchemy()
+login_manager = LoginManager()
+
+def register_extensions(app):
+    db.init_app(app)
+    login_manager.init_app(app)
+
+def register_blueprints(app):
+    for module_name in ('authentication', 'home'):
+        module = import_module('apps.{}.routes'.format(module_name))
+        app.register_blueprint(module.blueprint)
+
+def configure_database(app):
+
+    @app.before_first_request
+    def initialize_database():
+        try:
+            db.create_all()
+        except Exception as e:
+
+            print('> Error: DBMS Exception: ' + str(e) )
+
+    @app.teardown_request
+    def shutdown_session(exception=None):
+        db.session.remove()
+
+from apps.authentication.oauth import azure_blueprint
+
+def create_app(config):
+    app = Flask(__name__)
+    app.config.from_object(config)
+    app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1)
+    register_extensions(app)
+    register_blueprints(app)
+    app.register_blueprint(azure_blueprint, url_prefix="/login")    
+    configure_database(app)
+    return app

@@ -1,0 +1,47 @@
+{% extends "layouts/base-fullscreen.html" %}
+
+{% block title %} Login {% endblock %}
+
+{% block content %}   
+
+    <div class="auth-wrapper">
+        <div class="auth-content">
+            <div class="card">
+                <div class="card-body text-center">
+
+                    <h3 class="mb-4">Login</h3>
+
+                    <form role="form" method="post" action="">
+
+                        {{ form.hidden_tag() }}                    
+
+                        <div class="input-group mb-3">
+                            {{ form.username(placeholder="Username or eMail", class="form-control") }}
+                        </div>
+                        
+                        <div class="input-group mb-4">
+                            {{ form.password(placeholder="Password", class="form-control", type="password") }}
+                        </div>
+                        
+                        <button type="submit" name="login" class="btn btn-primary shadow-2 mb-4">Login</button>
+
+                    </form>
+
+                    <p class="mb-0 text-muted">Don’t have an account? <a href="{{ url_for('authentication_blueprint.register') }}" >Sign Up</a></p>
+                    
+                    {% if config.SOCIAL_AUTH_ENTRA %}
+                        <div class="mx-2">
+
+                            <a href="{{url_for('authentication_blueprint.login_Azure')}}" class="btn">
+                                <img src="/static/assets/images/Microsoft_Entra_ID_Color_Icon.svg" class="auth-icon"/>
+                            </a>
+                            <br />
+                            <span class="mx-2">Sign In with Entra ID</span>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}

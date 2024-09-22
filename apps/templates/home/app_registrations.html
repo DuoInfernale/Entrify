@@ -1,0 +1,89 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Applications List {% endblock %}
+
+{% block stylesheets %}
+<!-- Add any specific CSS for this page here -->
+{% endblock stylesheets %}
+
+{% block content %}
+<div class="pcoded-main-container">
+    <div class="pcoded-wrapper">
+        <div class="pcoded-content">
+            <div class="pcoded-inner-content">
+                <div class="page-header">
+                    <div class="page-block">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <div class="page-header-title">
+                                    <h5 class="m-b-10">App registration List</h5>
+                                </div>
+                                <ul class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="/"><i class="feather icon-home"></i></a></li>
+                                    <li class="breadcrumb-item"><a href="javascript:">Applications</a></li>
+                                    <li class="breadcrumb-item"><a href="javascript:">App registrations</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="main-body">
+                    <div class="page-wrapper">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5>App registration secrets</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>Application ID</th>
+                                                    <th>Secret ID</th>
+                                                    <th>Description</th>
+                                                    <th>Expires</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="applications-table-body">
+                                                <!-- Data will be populated by JavaScript -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block javascripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    fetch('/api/applications')
+        .then(response => response.json())
+        .then(data => {
+            const tableBody = document.getElementById('applications-table-body');
+            data.forEach(app => {
+                app.password_credentials.forEach(cred => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${app.display_name}</td>    
+                        <td>${app.app_id}</td>
+                        <td>${cred.key_id}</td>
+                        <td>${cred.display_name}</td>
+                        <td>${cred.end_date_time || 'N/A'}</td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            });
+        })
+        .catch(error => console.error('Error fetching applications:', error));
+});
+</script>
+{% endblock javascripts %}
